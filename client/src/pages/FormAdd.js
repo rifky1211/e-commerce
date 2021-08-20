@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 import HeaderAdd from "../components/HeaderAdd";
 
@@ -11,7 +13,7 @@ export default function FormAdd() {
     price: 0,
     brand: "",
     detailProduct: "",
-    image: null,
+    image: "",
   };
 
   const [
@@ -24,10 +26,15 @@ export default function FormAdd() {
     setState((prevState) => ({ ...prevState, [name]: value }));
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(detailProduct)
+  };
+
   return (
     <div className="container border-add-styling mt-4">
       <HeaderAdd />
-      <form encType="multipart/form-data">
+      <form encType="multipart/form-data" onSubmit={handleSubmit}>
         <div className="form-group mb-3">
           <label htmlFor="title">Title</label>
           <input
@@ -36,7 +43,6 @@ export default function FormAdd() {
             id="title"
             name="title"
             placeholder="Enter title"
-            required
             checked={title}
             value={title}
             onChange={onChange}
@@ -52,7 +58,6 @@ export default function FormAdd() {
             max="5"
             name="rate"
             placeholder="Enter rate"
-            required
             checked={rate}
             value={rate}
             onChange={onChange}
@@ -66,7 +71,6 @@ export default function FormAdd() {
             id="description"
             name="description"
             placeholder="Enter description"
-            required
             checked={description}
             value={description}
             onChange={onChange}
@@ -80,7 +84,6 @@ export default function FormAdd() {
             id="price"
             name="price"
             placeholder="Enter price"
-            required
             checked={price}
             value={price}
             onChange={onChange}
@@ -94,7 +97,6 @@ export default function FormAdd() {
             id="brand"
             name="brand"
             placeholder="Enter brand"
-            required
             checked={brand}
             value={brand}
             onChange={onChange}
@@ -102,18 +104,17 @@ export default function FormAdd() {
         </div>
         <div className="form-group mb-3">
           <label htmlFor="detailProduct">Detail Product</label>
-          <textarea
-            type="text"
-            className="form-control"
-            id="detailProduct"
-            name="detailProduct"
-            placeholder="Using markdown"
-            rows="6"
-            required
-            checked={detailProduct}
-            value={detailProduct}
-            onChange={onChange}
-          ></textarea>
+          <CKEditor
+            editor={ClassicEditor}
+            data=""
+            onReady={(editor) => {
+              console.log("Editor is ready to use!", editor.data);
+            }}
+            onChange={(event, editor) => {
+              const data = editor.getData();
+              setState({title, rate, description, price, brand, detailProduct: data, image})
+            }}
+          />
         </div>
         <div className="form-group">
           <label htmlFor="image">Image</label>
@@ -123,7 +124,6 @@ export default function FormAdd() {
             id="image"
             name="image"
             placeholder="Enter image"
-            required
             checked={image}
             value={image}
             onChange={onChange}

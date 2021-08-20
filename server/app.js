@@ -27,6 +27,6 @@ app.use(cors())
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/api/item', apiRouter);
+app.use('/api', apiRouter);
 
 module.exports = app;

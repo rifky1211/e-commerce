@@ -23,7 +23,7 @@ export default function Detail() {
     <div className="container">
       <div className="mt-4 ">
         <div className="row justify-content-center">
-          <div className="image-styling col-sm-3">
+          <div className="image-styling col-sm-5 mx-4">
             <img src={PhotoItem} alt="" />
           </div>
           <div className="col-sm-4 detail-product">
@@ -35,7 +35,7 @@ export default function Detail() {
             </div>
             <div className="price-product mt-4">
               <p>Price</p>
-              <h3>Rp. {Intl.NumberFormat().format(price * quantity)},-</h3>
+              <h3>Rp. {Intl.NumberFormat().format(price)},-</h3>
             </div>
             <div className="transaction-product mt-4">
               <p className="color-styling">Color</p>
@@ -97,7 +97,7 @@ export default function Detail() {
                 }
                 onClick={(e) => {
                   e.preventDefault();
-                  setState({ price, quantity: quantity - 1, color, capacity });
+                  setState({ price: price - (price / quantity) , quantity: quantity - 1, color, capacity });
                 }}
               >
                 <i className="fas fa-minus"></i>
@@ -109,20 +109,44 @@ export default function Detail() {
                 value={quantity}
                 name="quantity"
                 onChange={onChange}
+                readOnly
               />
               <button
                 className="btn btn-primary btn-sm rounded-circle"
                 onClick={(e) => {
                   e.preventDefault();
-                  setState({ price, quantity: quantity + 1, color, capacity });
+                  setState({ price: price + (price / quantity), quantity: quantity + 1, color, capacity });
                 }}
               >
                 <i className="fas fa-plus"></i>
               </button>
               <div>
-                <button className="btn btn-success btn-cart-styling mt-4">
+                <button
+                  className="btn btn-success btn-cart-styling mt-4"
+                  onClick={() => {
+                    if (color === "" && capacity === "") {
+                      alert("Please choose color & capacity");
+                    } else if (color === "") {
+                      alert("Please choose ur color");
+                    } else if(capacity === ""){
+                      alert("Please choose ur capacity")
+                    }else{
+                      alert("Transaction Success")
+                    }
+
+                    console.log("price", price);
+                    console.log("capacity", capacity);
+                    console.log("color", color);
+                    // window.location="/"
+                  }}
+                >
                   <i className="fas fa-shopping-cart"></i> Buy
                 </button>
+              </div>
+              <div>
+                <Link to="/" className="btn btn-warning btn-cart-styling mt-2">
+                  <i className="fas fa-ban"></i> Cancel
+                </Link>
               </div>
             </div>
           </div>
@@ -130,11 +154,33 @@ export default function Detail() {
       </div>
       <div className="row mt-4">
         <div className="border-bottom navbar-product pb-1">
-          <Link to="/" className="border-bottom" style={{ textDecoration: 'none', color: 'gray' }}>Product Detail</Link>
-          <Link to="/" className="mx-4" style={{ textDecoration: 'none', color: 'gray' }}>Testimonial</Link>
+          <Link
+            to="/"
+            className="border-bottom"
+            style={{ textDecoration: "none", color: "gray" }}
+          >
+            Product Detail
+          </Link>
+          <Link
+            to="/"
+            className="mx-4"
+            style={{ textDecoration: "none", color: "gray" }}
+          >
+            Testimonial
+          </Link>
         </div>
         <div className="mt-3">
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book. It has survived not
+            only five centuries, but also the leap into electronic typesetting,
+            remaining essentially unchanged. It was popularised in the 1960s
+            with the release of Letraset sheets containing Lorem Ipsum passages,
+            and more recently with desktop publishing software like Aldus
+            PageMaker including versions of Lorem Ipsum.
+          </p>
         </div>
       </div>
     </div>

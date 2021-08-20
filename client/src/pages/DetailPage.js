@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Detail from '../components/DetailItem.js/Detail'
+import Detail from '../components/DetailItem/Detail'
 
 export default function DetailPage() {
     return (

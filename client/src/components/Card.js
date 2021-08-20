@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import CardPhoto1 from "../assets/images/realme-7.jpg";
+import CardPhoto1 from "../assets/images/asus-max-pro-m1.jpeg";
 
 export default function Card() {
   return (
