@@ -1,17 +1,52 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
+import { shallowEqual, useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+
+import { loadItem } from "../actions/items";
 
 import Card from "../components/Card";
 import Header from "../components/Header";
 
-export default class LandingPage extends Component {
-  render() {
+export default function LandingPage() {
+  const { items } = useSelector(
+    (state) => ({
+      items: state.items,
+    }),
+    shallowEqual
+  );
+
+  let dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadItem());
+  }, [dispatch]);
+
+  const nodeList = items.map((item, index) => {
     return (
-      <div>
-        <Header></Header>
-        <div className="container">
-          <Card></Card>
-        </div>
-      </div>
+      <Card
+        key={index}
+        sent={item.sent}
+        id={item.id}
+        title={item.title}
+        rate={item.rate}
+        description={item.description}
+        price={item.price}
+        brand={item.brand}
+        detailProduct={item.detailProduct}
+      />
     );
-  }
+  });
+
+  return (
+    <div>
+      <Header></Header>
+
+      <div className="container">
+        <Link to="/add" className="btn btn-primary">
+          Add
+        </Link>
+        <div className="row">{nodeList}</div>
+      </div>
+    </div>
+  );
 }

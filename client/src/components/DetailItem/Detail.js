@@ -1,17 +1,27 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+import { useDispatch } from 'react-redux';
+
+import { addTransaction } from '../../actions/items'
+
+
 import PhotoItem from "../../assets/images/realme-7.jpg";
 
 export default function Detail() {
+
+  const dispatch = useDispatch();
+
   const initialState = {
-    price: 3500000,
+    nameProduct: localStorage.getItem("title"),
+    price: parseInt(localStorage.getItem("price")),
     quantity: 1,
     color: "",
     capacity: "",
+    brand: localStorage.getItem("brand")
   };
 
-  const [{ price, quantity, capacity, color }, setState] =
+  const [{ nameProduct, price, quantity, capacity, color, brand }, setState] =
     useState(initialState);
 
   const onChange = (e) => {
@@ -28,9 +38,9 @@ export default function Detail() {
           </div>
           <div className="col-sm-4 detail-product">
             <div className="header-product">
-              <h3>Realme 7 Pro</h3>
+              <h3>{nameProduct}</h3>
               <h6>
-                Brand Realme <small>(5504 votes)</small>
+                Brand {brand} <small>(5504 votes)</small>
               </h6>
             </div>
             <div className="price-product mt-4">
@@ -46,7 +56,7 @@ export default function Detail() {
                     : "btn btn-warning"
                 }
                 onClick={() => {
-                  setState({ price, quantity, color: "putih", capacity });
+                  setState({ nameProduct, price, quantity, color: "putih", capacity, brand });
                 }}
               >
                 Putih
@@ -58,7 +68,7 @@ export default function Detail() {
                     : "btn btn-warning mx-2"
                 }
                 onClick={() => {
-                  setState({ price, quantity, color: "hitam", capacity });
+                  setState({ nameProduct, price, quantity, color: "hitam", capacity, brand });
                 }}
               >
                 Hitam
@@ -71,7 +81,7 @@ export default function Detail() {
                     : "btn btn-warning"
                 }
                 onClick={() => {
-                  setState({ price, quantity, color, capacity: "16" });
+                  setState({ nameProduct, price, quantity, color, capacity: "16", brand });
                 }}
               >
                 16 GB
@@ -83,7 +93,7 @@ export default function Detail() {
                     : "btn btn-warning mx-2"
                 }
                 onClick={() => {
-                  setState({ price, quantity, color, capacity: "32" });
+                  setState({ nameProduct, price, quantity, color, capacity: "32", brand });
                 }}
               >
                 32 GB
@@ -97,7 +107,7 @@ export default function Detail() {
                 }
                 onClick={(e) => {
                   e.preventDefault();
-                  setState({ price: price - (price / quantity) , quantity: quantity - 1, color, capacity });
+                  setState({ nameProduct, price: price - (price / quantity) , quantity: quantity - 1, color, capacity, brand });
                 }}
               >
                 <i className="fas fa-minus"></i>
@@ -115,7 +125,7 @@ export default function Detail() {
                 className="btn btn-primary btn-sm rounded-circle"
                 onClick={(e) => {
                   e.preventDefault();
-                  setState({ price: price + (price / quantity), quantity: quantity + 1, color, capacity });
+                  setState({ nameProduct, price: price + (price / quantity), quantity: quantity + 1, color, capacity, brand });
                 }}
               >
                 <i className="fas fa-plus"></i>
@@ -132,12 +142,12 @@ export default function Detail() {
                       alert("Please choose ur capacity")
                     }else{
                       alert("Transaction Success")
+                      dispatch(addTransaction(nameProduct, price, color, capacity, quantity))
                     }
 
                     console.log("price", price);
                     console.log("capacity", capacity);
                     console.log("color", color);
-                    // window.location="/"
                   }}
                 >
                   <i className="fas fa-shopping-cart"></i> Buy
@@ -170,17 +180,7 @@ export default function Detail() {
           </Link>
         </div>
         <div className="mt-3">
-          <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
-          </p>
+        <div dangerouslySetInnerHTML={{ __html: localStorage.getItem("detailProduct") }} />
         </div>
       </div>
     </div>

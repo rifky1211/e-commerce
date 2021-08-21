@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 import HeaderAdd from "../components/HeaderAdd";
-
+import { addItem } from "../actions/items";
 export default function FormAdd() {
   const initialState = {
     title: "",
@@ -13,8 +14,11 @@ export default function FormAdd() {
     price: 0,
     brand: "",
     detailProduct: "",
-    image: "",
+    image: React.createRef(),
   };
+
+
+  const dispatch = useDispatch();
 
   const [
     { title, rate, description, price, brand, detailProduct, image },
@@ -28,13 +32,14 @@ export default function FormAdd() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(detailProduct)
+    dispatch(addItem(title, rate, description, price, brand, detailProduct, image.current.files[0].name))
+    window.location = "/"
   };
 
   return (
     <div className="container border-add-styling mt-4">
       <HeaderAdd />
-      <form encType="multipart/form-data" onSubmit={handleSubmit}>
+      <form  onSubmit={handleSubmit}>
         <div className="form-group mb-3">
           <label htmlFor="title">Title</label>
           <input
@@ -46,6 +51,7 @@ export default function FormAdd() {
             checked={title}
             value={title}
             onChange={onChange}
+            required
           />
         </div>
         <div className="form-group mb-3">
@@ -61,6 +67,7 @@ export default function FormAdd() {
             checked={rate}
             value={rate}
             onChange={onChange}
+            required
           />
         </div>
         <div className="form-group mb-3">
@@ -74,6 +81,7 @@ export default function FormAdd() {
             checked={description}
             value={description}
             onChange={onChange}
+            required
           ></textarea>
         </div>
         <div className="form-group mb-3">
@@ -87,6 +95,7 @@ export default function FormAdd() {
             checked={price}
             value={price}
             onChange={onChange}
+            required
           />
         </div>
         <div className="form-group mb-3">
@@ -99,6 +108,7 @@ export default function FormAdd() {
             placeholder="Enter brand"
             checked={brand}
             value={brand}
+            required
             onChange={onChange}
           />
         </div>
@@ -107,9 +117,6 @@ export default function FormAdd() {
           <CKEditor
             editor={ClassicEditor}
             data=""
-            onReady={(editor) => {
-              console.log("Editor is ready to use!", editor.data);
-            }}
             onChange={(event, editor) => {
               const data = editor.getData();
               setState({title, rate, description, price, brand, detailProduct: data, image})
@@ -121,12 +128,10 @@ export default function FormAdd() {
           <input
             type="file"
             className="form-control mb-4"
-            id="image"
-            name="image"
             placeholder="Enter image"
-            checked={image}
-            value={image}
-            onChange={onChange}
+            name="image"
+            ref={image}
+            required
           />
         </div>
         <div className="form-group mb-3">

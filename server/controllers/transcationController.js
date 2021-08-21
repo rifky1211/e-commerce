@@ -19,6 +19,7 @@ module.exports = {
       const transaction = await Transaction.create(req.body);
       res.status(201).json({success: true, transaction});
     } catch (err) {
+      console.log(err)
       res.status(500).json({
         success: false,
         message: "something wrong",

@@ -15,8 +15,7 @@ module.exports = {
     }
   },
   createItem: async (req, res) => {
-    const { title, rate, description, price, brand, detailProduct } = req.body;
-    const image = Date.now() +"|" + req.files.image.name;
+    const { title, rate, description, price, brand, detailProduct, image } = req.body;
     try {
       const item = await Item.create({
         title,

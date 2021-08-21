@@ -17,6 +17,10 @@ const transactionSchema = new Schema(
     capacity: {
         type: String,
         required: true
+    },
+    quantity: {
+      type: Number,
+      required: true
     }
   },
   {
