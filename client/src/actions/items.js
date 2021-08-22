@@ -1,7 +1,6 @@
 import {
   ADD_ITEM,
   ADD_TRANSACTION,
-  DETAIL_ITEM,
   DRAW_ADD_ITEM,
   DRAW_LOAD_ITEM,
   FAILED_ADD_ITEM,
@@ -44,8 +43,9 @@ export const drawAddItem = (
   image,
 });
 
-export const successAddItem = () => ({
+export const successAddItem = (data) => ({
   type: SUCCESS_ADD_ITEM,
+  data
 });
 
 export const failedAddItem = (id) => ({

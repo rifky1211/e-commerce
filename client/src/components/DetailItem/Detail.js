@@ -34,7 +34,7 @@ export default function Detail() {
       <div className="mt-4 ">
         <div className="row justify-content-center">
           <div className="image-styling col-sm-5 mx-4">
-            <img src={PhotoItem} alt="" />
+            <img src={`https://e-commerce-rifky.s3.ap-southeast-1.amazonaws.com/${localStorage.getItem("image")}`} alt="" />
           </div>
           <div className="col-sm-4 detail-product">
             <div className="header-product">

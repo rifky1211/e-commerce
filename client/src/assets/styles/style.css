@@ -63,7 +63,8 @@ body{
 }
 
 .image-styling img{
-    height: 25rem !important;
+    width: 25rem;
+    height: 25rem;
 }
 
 .image-styling{
@@ -77,4 +78,8 @@ body{
 
 .detail-product{
     border-left: 1px solid;
+}
+
+.photo-styling{
+    height: 15rem;
 }

@@ -23,6 +23,7 @@ let totalStar = []
     localStorage.setItem("price", props.price)
     localStorage.setItem("detailProduct", props.detailProduct)
     localStorage.setItem("brand", props.brand)
+    localStorage.setItem("image", props.image)
   };
 
   return (
@@ -30,7 +31,7 @@ let totalStar = []
       <div className="card card-styling my-4">
         <img
           className="card-img-top photo-styling"
-          src={CardPhoto1}
+          src={`https://e-commerce-rifky.s3.ap-southeast-1.amazonaws.com/${props.image}`}
           alt="CardPhoto"
         />
         <div className="card-body">
@@ -39,6 +40,7 @@ let totalStar = []
           <p className="card-text">
            {props.description}
           </p>
+          <h3 className="border-bottom pb-4">Rp. {Intl.NumberFormat().format(props.price)},-</h3>
           <Link to="/detail-item" className="btn btn-success" onClick={detail}>
             Detail Item
           </Link>

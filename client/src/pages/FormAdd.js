@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
@@ -14,9 +14,8 @@ export default function FormAdd() {
     price: 0,
     brand: "",
     detailProduct: "",
-    image: React.createRef(),
+    image: "",
   };
-
 
   const dispatch = useDispatch();
 
@@ -30,16 +29,39 @@ export default function FormAdd() {
     setState((prevState) => ({ ...prevState, [name]: value }));
   };
 
+  const onFileChange = (event) => {
+    // Update the state
+    setState({
+      title,
+      rate,
+      description,
+      price,
+      brand,
+      detailProduct,
+      image: event.target.files[0],
+    });
+  };
+
   const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(addItem(title, rate, description, price, brand, detailProduct, image.current.files[0].name))
+    e.preventDefault()
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("title", title);
+    formData.append("rate", rate);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("brand", brand);
+    formData.append("detailProduct", detailProduct);
+    dispatch(
+      addItem(title, rate, description, price, brand, detailProduct, formData)
+    );
     window.location = "/"
   };
 
   return (
     <div className="container border-add-styling mt-4">
       <HeaderAdd />
-      <form  onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="form-group mb-3">
           <label htmlFor="title">Title</label>
           <input
@@ -119,7 +141,15 @@ export default function FormAdd() {
             data=""
             onChange={(event, editor) => {
               const data = editor.getData();
-              setState({title, rate, description, price, brand, detailProduct: data, image})
+              setState({
+                title,
+                rate,
+                description,
+                price,
+                brand,
+                detailProduct: data,
+                image,
+              });
             }}
           />
         </div>
@@ -128,9 +158,7 @@ export default function FormAdd() {
           <input
             type="file"
             className="form-control mb-4"
-            placeholder="Enter image"
-            name="image"
-            ref={image}
+            onChange={onFileChange}
             required
           />
         </div>

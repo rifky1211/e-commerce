@@ -30,6 +30,7 @@ export default function LandingPage() {
         title={item.title}
         rate={item.rate}
         description={item.description}
+        image={item.image}
         price={item.price}
         brand={item.brand}
         detailProduct={item.detailProduct}

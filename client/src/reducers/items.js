@@ -17,21 +17,7 @@ const items = (state = [], action) => {
         };
       });
 
-      case DRAW_ADD_ITEM:
-        return [
-            ...state,
-            {
-              title: action.title,
-              rate: action.rate,
-              description: action.description,
-              price: action.price,
-              brand: action.brand,
-              detailProduct: action.detailProduct,
-              image: action.image,
-              sent: true,
-            }
-        ]
-
+    case DRAW_ADD_ITEM:
     default:
       return state;
   }
