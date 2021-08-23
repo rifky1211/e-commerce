@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -8,23 +8,45 @@ import Card from "../components/Card";
 import Header from "../components/Header";
 
 export default function LandingPage() {
+  const [isFetching, setIsFetching] = useState(false);
+	const [page, setPage] = useState(1);
+
   const { items } = useSelector(
     (state) => ({
       items: state.items,
     }),
     shallowEqual
   );
-
   let dispatch = useDispatch();
+  const handleScroll = () => {
+    if (
+			Math.ceil(window.innerHeight + document.documentElement.scrollTop) !== document.documentElement.offsetHeight ||
+			isFetching
+		)
+			return;
+		setIsFetching(true);
+    setPage(page + 1)
+  };
 
   useEffect(() => {
-    dispatch(loadItem());
-  }, [dispatch]);
+		if (!isFetching) return;
+		fetchMoreListItems();
+	}, [isFetching]);
+
+	const fetchMoreListItems = () => {
+    setPage(page + 1)
+
+		setIsFetching(false);
+	};
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    dispatch(loadItem(page));
+  }, [dispatch, page, isFetching]);
 
   const nodeList = items.map((item, index) => {
     return (
       <Card
-        key={index}
+        key={item.id}
         sent={item.sent}
         id={item.id}
         title={item.title}
@@ -37,7 +59,6 @@ export default function LandingPage() {
       />
     );
   });
-
   return (
     <div>
       <Header></Header>

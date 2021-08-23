@@ -1,10 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { detailItem } from "../actions/items";
-import { useDispatch } from 'react-redux';
 
 
-import CardPhoto1 from "../assets/images/asus-max-pro-m1.jpeg";
 
 export default function Card(props) {
 let totalStar = []

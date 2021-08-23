@@ -17,35 +17,38 @@ var s3 = new AWS.S3({
 /* GET home page. */
 router.get("/item", apiController.getItems);
 router.post("/item", (req, res) => {
-  console.log(req.files.image.name)
-  let name = req.files.image.name
+  let name = req.files.image.name;
   const { title, rate, description, price, brand, detailProduct } = req.body;
-  let imageName = Date.now() + "|" + name
-  
-    s3.upload({
-    Bucket: "e-commerce-rifky",
-    Key: imageName,
-    Body: req.files.image.data,
-    ACL: 'public-read',
-  }, function (err, data) {
-      if (err) {
-        console.log(err);
-      }
-      console.log(data);
-    });
-    Item.create({
-        title,
-        rate,
-        description,
-        price,
-        brand,
-        detailProduct,
-        image: imageName,
-      }).then(item => {
-        res.status(201).json({success: true, item})
-    }).catch(err => {
-        console.log(err)
+  let imageName = Date.now() + "|" + name;
+
+  Item.create({
+    title,
+    rate,
+    description,
+    price,
+    brand,
+    detailProduct,
+    image: imageName,
+  })
+    .then((item) => {
+      s3.upload(
+        {
+          Bucket: "e-commerce-rifky",
+          Key: imageName,
+          Body: req.files.image.data,
+          ACL: "public-read",
+        },
+        function (err, data) {
+          if (err) {
+            console.log(err);
+          }
+        }
+      );
+      res.status(201).json({ success: true, item });
     })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 router.put("/item/:id", apiController.updateItem);
 router.delete("/item/:id", apiController.deleteItem);

@@ -6,17 +6,16 @@ import history from "../history";
 import { ADD_ITEM, ADD_TRANSACTION, LOAD_ITEM } from "../constants";
 
 const API_URL = process.env.REACT_APP_SERVER_URL;
-var header = {
-  "Content-Type": "multipart/form-data",
-};
 const request = axios.create({
   baseURL: API_URL,
   timeout: 10000,
 });
 
-const read = async (path) =>
+const read = async (path, page) =>
   await request
-    .get(path)
+    .get(path,{params: {
+      page
+    }})
     .then((response) => response.data)
     .catch((err) => {
       throw err;
@@ -44,9 +43,9 @@ const checkout = async (path, params) =>
 const PATH = "/api/item";
 const PATH_TRANSACTION = "/api/transaction";
 
-function* loadItem() {
+function* loadItem(payload) {
   try {
-    const data = yield call(read, PATH);
+    const data = yield call(read, PATH, payload.page);
     yield put(actions.drawLoadItem(data));
   } catch (error) {
     console.log(error);

@@ -20,8 +20,9 @@ export const failedLoadItem = () => ({
   type: FAILED_LOAD_ITEM,
 });
 
-export const loadItem = () => ({
+export const loadItem = (page = 1) => ({
   type: LOAD_ITEM,
+  page
 });
 
 export const drawAddItem = (

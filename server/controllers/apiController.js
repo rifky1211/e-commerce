@@ -1,12 +1,10 @@
 const Item = require("../models/Item");
-
-
-
-
 module.exports = {
   getItems: async (req, res) => {
+    
     try {
-      const items = await Item.find();
+      let items = await Item.find();
+      items = items.slice(0, 8 *req.query.page )
       res.status(200).json(items);
     } catch (err) {
       res.status(500).json({
